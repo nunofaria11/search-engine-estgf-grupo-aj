@@ -10,4 +10,6 @@ package search.engine;
  */
 public interface IntFormule {
     
+    public double calculateValue(double[][] M, double[][] Q);
+    
 }
