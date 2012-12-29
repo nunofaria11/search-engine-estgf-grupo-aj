@@ -36,6 +36,8 @@ public final class ProcessorQC {
         this.path = path;
         this.files = getFileNames(path);
 
+        //this.indexArray = new ArrayList<String>();
+        
         // 1 Matriz M
         this.docLineM = createDocLineM(path, files);
         this.matrixM = createMatrixOcc(docLineM);
@@ -48,7 +50,7 @@ public final class ProcessorQC {
         queryLineM[0] = queryWords;
 
         this.matrixQ = createMatrixOcc(queryLineM);
-        
+
         updateMatrix(matrixM);
         updateMatrix(matrixQ);
 
@@ -185,7 +187,7 @@ public final class ProcessorQC {
                 double currentValue = matrix[i][j];
 
                 int np = countDocWords(matrix, j);
-                
+
                 if (np != 0) {
                     double x = currentValue * Math.log10(matrix.length / np);
                     matrix[i][j] = x;
