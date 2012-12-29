@@ -7,12 +7,8 @@ package search.engine;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Processador de Queries
@@ -23,39 +19,50 @@ public final class ProcessorQC {
 
     private double[][] matrixM;
     private double[][] matrixQ;
-    private ArrayList<String> indexArray; // *** para que serve???
+    //private ArrayList<String> indexArray; // *** para que serve???
     private ArrayList<String> files; // nomes do ficheiro
     private String[][] docLineM;
+    private String[][] queryLineM;
     private String path;
 
-    public ProcessorQC() {
+    public ProcessorQC(String query) {
         this.path = ".";
         this.files = getFileNames(path);
         this.matrixM = new double[getNumberOfDocs()][];
         this.docLineM = createDocLineM(path, files);
     }
 
-    public ProcessorQC(String path) {
+    public ProcessorQC(String path, String query) {
         this.path = path;
         this.files = getFileNames(path);
-        this.matrixM = new double[getNumberOfDocs()][];
+
+        // 1 Matriz M
         this.docLineM = createDocLineM(path, files);
-        this.indexArray = createIndexArray(docLineM);
-        this.matrixM = createMatrixM(docLineM, indexArray);
+        this.matrixM = createMatrixOcc(docLineM);
+
+        // 2 Matriz Q
+        queryLineM = new String[1][];
+        String queryNoDigits = digitsDelete(query);
+        String queryNoPunc = ponctuationDelete(queryNoDigits);
+        String[] queryWords = queryNoPunc.split(" ");
+        queryLineM[0] = queryWords;
+
+        this.matrixQ = createMatrixOcc(queryLineM);
+        
+        updateMatrix(matrixM);
+        updateMatrix(matrixQ);
+
     }
 
-    public String digitsDelete(String word) {
+    private String digitsDelete(String word) {
         return word.replaceAll("[\\d.]", "");
     }
 
     /*
      * .!?,:*+/
      */
-    public String ponctuationDelete(String word) {
+    private String ponctuationDelete(String word) {
         return word.replaceAll("[\\.!\\?,:\\*\\+/]", "");
-    }
-
-    public void addFile(String filepath) {
     }
 
     public Integer getNumberOfDocs() {
@@ -142,7 +149,10 @@ public final class ProcessorQC {
         return indexes;
     }
 
-    private double[][] createMatrixM(String[][] docLineM, ArrayList<String> indexes) {
+    private double[][] createMatrixOcc(String[][] docLineM) {
+
+        ArrayList<String> indexes = createIndexArray(docLineM);
+
         int numDocs = docLineM.length;
         int totalWords = indexes.size();
 
@@ -160,47 +170,89 @@ public final class ProcessorQC {
 
                 M[docIdx][pos]++;
 
-
             }
         }
 
         return M;
+    }
 
+    private void updateMatrix(double[][] matrix) {
+
+        for (int i = 0; i < matrix.length; i++) {
+
+            for (int j = 0; j < matrix[i].length; j++) {
+
+                double currentValue = matrix[i][j];
+
+                int np = countDocWords(matrix, j);
+                
+                if (np != 0) {
+                    double x = currentValue * Math.log10(matrix.length / np);
+                    matrix[i][j] = x;
+                } else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    private int countDocWords(double[][] matrix, int wordColumn) {
+        int pos = wordColumn;
+        int totalDocuments = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i][pos] != 0) {
+                totalDocuments++;
+            }
+        }
+        return totalDocuments;
     }
 
     public String[][] getDocLineM() {
         return docLineM;
     }
 
-    public ArrayList<String> getIndexArray() {
-        return indexArray;
-    }
-
     public double[][] getMatrixM() {
         return matrixM;
+    }
+
+    public double[][] getMatrixQ() {
+        return matrixQ;
+    }
+
+    public String[][] getQueryLineM() {
+        return queryLineM;
     }
 
     public static void main(String[] args) {
         /*
          * teste
          */
-        ProcessorQC p = new ProcessorQC("files/");
-        
-        System.out.println("docLineM: ");
-        String[][] m = p.getDocLineM();
+        ProcessorQC p = new ProcessorQC("files/", "O mundo da coca-cola");
 
+        System.out.println("\ndocLineM: ");
+        printStringMatrix(p.getDocLineM());
+        System.out.println("\nMatrixM: ");
+        printMatrix(p.getMatrixM());
+
+        System.out.println("\nqueryLineM: ");
+        printStringMatrix(p.getQueryLineM());
+        System.out.println("\nMatrixQ: ");
+        printMatrix(p.getMatrixQ());
+
+
+
+    }
+
+    protected static void printStringMatrix(String[][] m) {
         for (int i = 0; i < m.length; i++) {
             System.out.println("");
             for (int j = 0; j < m[i].length; j++) {
                 System.out.print(m[i][j] + ", ");
             }
         }
+    }
 
-        
-        System.out.println("\nindexArray: "+p.getIndexArray());
-
-        double[][] matrixM = p.getMatrixM();
-
+    protected static void printMatrix(double[][] matrixM) {
         for (int i = 0; i < matrixM.length; i++) {
             System.out.println("");
             for (int j = 0; j < matrixM[i].length; j++) {
