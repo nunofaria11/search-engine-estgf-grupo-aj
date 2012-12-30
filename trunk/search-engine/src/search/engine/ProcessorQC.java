@@ -18,41 +18,30 @@ import java.util.Scanner;
 public final class ProcessorQC {
 
     private double[][] matrixM;
-    private double[][] matrixQ;
-    //private ArrayList<String> indexArray; // *** para que serve???
     private ArrayList<String> files; // nomes do ficheiro
     private String[][] docLineM;
-    private String[][] queryLineM;
-    private String path;
-
-    public ProcessorQC(String query) {
-        this.path = ".";
-        this.files = getFileNames(path);
-        this.matrixM = new double[getNumberOfDocs()][];
-        this.docLineM = createDocLineM(path, files);
-    }
 
     public ProcessorQC(String path, String query) {
-        this.path = path;
         this.files = getFileNames(path);
 
-        //this.indexArray = new ArrayList<String>();
-        
+
+
         // 1 Matriz M
         this.docLineM = createDocLineM(path, files);
-        this.matrixM = createMatrixOcc(docLineM);
-
-        // 2 Matriz Q
-        queryLineM = new String[1][];
+        /* 
+         * o createDocLine vai criar uma matriz com #Docs + 1 para depois 
+         * adicionar a query a essa matrizz, e tratar tudo na mesma estrutura
+         */
         String queryNoDigits = digitsDelete(query);
         String queryNoPunc = ponctuationDelete(queryNoDigits);
         String[] queryWords = queryNoPunc.split(" ");
-        queryLineM[0] = queryWords;
 
-        this.matrixQ = createMatrixOcc(queryLineM);
+        // a ultima linha da matriz recebe o conteudo da query
+        this.docLineM[docLineM.length - 1] = queryWords;
 
+        this.matrixM = createMatrixOcc(docLineM);
+        printMatrix(matrixM);
         updateMatrix(matrixM);
-        updateMatrix(matrixQ);
 
     }
 
@@ -95,7 +84,7 @@ public final class ProcessorQC {
 
     private String[][] createDocLineM(String path, ArrayList<String> files) {
 
-        String[][] matrix = new String[getNumberOfDocs()][];
+        String[][] matrix = new String[getNumberOfDocs() + 1][];
 
         int docLine = 0;
 
@@ -154,6 +143,9 @@ public final class ProcessorQC {
     private double[][] createMatrixOcc(String[][] docLineM) {
 
         ArrayList<String> indexes = createIndexArray(docLineM);
+        for (int i = 0; i < indexes.size(); i++) {
+            System.out.println(i + "=" + indexes.get(i));
+        }
 
         int numDocs = docLineM.length;
         int totalWords = indexes.size();
@@ -189,8 +181,7 @@ public final class ProcessorQC {
                 int np = countDocWords(matrix, j);
 
                 if (np != 0) {
-                    double x = currentValue * Math.log10(matrix.length / np);
-                    matrix[i][j] = x;
+                    matrix[i][j] = currentValue * Math.log10(getNumberOfDocs() / np);
                 } else {
                     matrix[i][j] = 0;
                 }
@@ -201,7 +192,7 @@ public final class ProcessorQC {
     private int countDocWords(double[][] matrix, int wordColumn) {
         int pos = wordColumn;
         int totalDocuments = 0;
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length - 1; i++) {
             if (matrix[i][pos] != 0) {
                 totalDocuments++;
             }
@@ -213,16 +204,32 @@ public final class ProcessorQC {
         return docLineM;
     }
 
+    /**
+     * Vai buscar a parte superior da matriz de ocorrencias (apenas as
+     * ocorrencias dos documentos)
+     *
+     * @return
+     */
     public double[][] getMatrixM() {
-        return matrixM;
+        System.out.println("numberofdocs " + getNumberOfDocs());
+        double[][] M = new double[getNumberOfDocs()][];
+        for (int i = 0; i < getNumberOfDocs(); i++) {
+            M[i] = new double[matrixM[i].length];
+            System.arraycopy(matrixM[i], 0, M[i], 0, matrixM[i].length);
+        }
+        return M;
     }
 
+    /**
+     * Vai buscar uma matriz com a ultima linha da matriz principal, que é
+     * correspondente ao array de ocorrencias da query
+     *
+     * @return
+     */
     public double[][] getMatrixQ() {
-        return matrixQ;
-    }
-
-    public String[][] getQueryLineM() {
-        return queryLineM;
+        double[][] Q = new double[1][];
+        Q[0] = matrixM[matrixM.length - 1];
+        return Q;
     }
 
     public static void main(String[] args) {
@@ -233,16 +240,10 @@ public final class ProcessorQC {
 
         System.out.println("\ndocLineM: ");
         printStringMatrix(p.getDocLineM());
+
         System.out.println("\nMatrixM: ");
+        //printMatrix(p.createMatrixOcc(p.getDocLineM()));
         printMatrix(p.getMatrixM());
-
-        System.out.println("\nqueryLineM: ");
-        printStringMatrix(p.getQueryLineM());
-        System.out.println("\nMatrixQ: ");
-        printMatrix(p.getMatrixQ());
-
-
-
     }
 
     protected static void printStringMatrix(String[][] m) {
@@ -258,7 +259,7 @@ public final class ProcessorQC {
         for (int i = 0; i < matrixM.length; i++) {
             System.out.println("");
             for (int j = 0; j < matrixM[i].length; j++) {
-                System.out.print(matrixM[i][j] + ", ");
+                System.out.format("%6.3f;", matrixM[i][j]);
             }
         }
 
