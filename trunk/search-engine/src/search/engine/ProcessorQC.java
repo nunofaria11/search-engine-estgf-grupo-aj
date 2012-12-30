@@ -40,7 +40,6 @@ public final class ProcessorQC {
         this.docLineM[docLineM.length - 1] = queryWords;
 
         this.matrixM = createMatrixOcc(docLineM);
-        printMatrix(matrixM);
         updateMatrix(matrixM);
 
     }
@@ -143,9 +142,6 @@ public final class ProcessorQC {
     private double[][] createMatrixOcc(String[][] docLineM) {
 
         ArrayList<String> indexes = createIndexArray(docLineM);
-        for (int i = 0; i < indexes.size(); i++) {
-            System.out.println(i + "=" + indexes.get(i));
-        }
 
         int numDocs = docLineM.length;
         int totalWords = indexes.size();
@@ -211,7 +207,6 @@ public final class ProcessorQC {
      * @return
      */
     public double[][] getMatrixM() {
-        System.out.println("numberofdocs " + getNumberOfDocs());
         double[][] M = new double[getNumberOfDocs()][];
         for (int i = 0; i < getNumberOfDocs(); i++) {
             M[i] = new double[matrixM[i].length];
@@ -257,10 +252,11 @@ public final class ProcessorQC {
 
     protected static void printMatrix(double[][] matrixM) {
         for (int i = 0; i < matrixM.length; i++) {
-            System.out.println("");
+
             for (int j = 0; j < matrixM[i].length; j++) {
                 System.out.format("%6.3f;", matrixM[i][j]);
             }
+            System.out.println();
         }
 
     }
