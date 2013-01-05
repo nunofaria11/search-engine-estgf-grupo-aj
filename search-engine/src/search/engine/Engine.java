@@ -23,12 +23,12 @@ public class Engine {
         Reader reader = new InputStreamReader(System.in, Charset.forName("UTF-8"));
         BufferedReader stdin = new BufferedReader(reader);
 
-        System.out.print("Caminho (default ENTER \".\"): ");
+        System.out.print("Caminho (default ENTER \"files/\"): ");
 
         // aqui tem que escrever "files/" 
         String path = stdin.readLine();
         if (path.equals("")) {
-            path = ".";
+            path = "files/";
         }
 
         System.out.print("Query: ");
