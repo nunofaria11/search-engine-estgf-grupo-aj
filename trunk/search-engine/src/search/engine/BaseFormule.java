@@ -30,6 +30,7 @@ public class BaseFormule implements IntFormule {
             c += Q[0][i] * Q[0][i];
         }
 
+
         result = a / (b * c);
         return result;
     }

@@ -33,7 +33,9 @@ public final class ProcessorQC {
          * adicionar a query a essa matrizz, e tratar tudo na mesma estrutura
          */
         String queryNoDigits = digitsDelete(query);
+
         String queryNoPunc = ponctuationDelete(queryNoDigits);
+
         String[] queryWords = queryNoPunc.split(" ");
 
         // a ultima linha da matriz recebe o conteudo da query
@@ -44,6 +46,12 @@ public final class ProcessorQC {
 
     }
 
+    /**
+     * Remove dígitos de uma string
+     *
+     * @param word
+     * @return
+     */
     private String digitsDelete(String word) {
         return word.replaceAll("[\\d.]", "");
     }
@@ -99,12 +107,23 @@ public final class ProcessorQC {
                     input += scanner.nextLine();
                 }
                 String noDigits = digitsDelete(input);
-
                 String noPunctuation = ponctuationDelete(noDigits);
+                String[] words1 = noPunctuation.split(" ");
 
-                String[] words = noPunctuation.split(" ");
+                /*
+                 * remover espaços obsoletos
+                 */
+                ArrayList<String> wordList = new ArrayList<String>();
+                for (int w = 0; w < words1.length; w++) {
+                    if (!words1[w].isEmpty()) {
 
-                matrix[docLine] = words;
+                        wordList.add(words1[w]);
+                    }
+                }
+
+
+
+                matrix[docLine] = (String[]) wordList.toArray(new String[wordList.size()]);//
                 docLine++;
 
             } catch (FileNotFoundException ex) {
@@ -241,7 +260,7 @@ public final class ProcessorQC {
         printMatrix(p.getMatrixM());
     }
 
-    protected static void printStringMatrix(String[][] m) {
+    public static void printStringMatrix(String[][] m) {
         for (int i = 0; i < m.length; i++) {
             System.out.println("");
             for (int j = 0; j < m[i].length; j++) {
@@ -250,7 +269,7 @@ public final class ProcessorQC {
         }
     }
 
-    protected static void printMatrix(double[][] matrixM) {
+    public static void printMatrix(double[][] matrixM) {
         for (int i = 0; i < matrixM.length; i++) {
 
             for (int j = 0; j < matrixM[i].length; j++) {
