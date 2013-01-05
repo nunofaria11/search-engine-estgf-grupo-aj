@@ -34,7 +34,9 @@ public class Engine {
         System.out.print("Query: ");
         String query = stdin.readLine();
 
-        ProcessorQC processor = new ProcessorQC(path, query);
+        ProcessorQC processor = new ProcessorQC(query);
+        processor.folderDefine(path);   // passo 1
+        processor.process();            // passo 2
 
 
         BaseFormule bf = new BaseFormule();
