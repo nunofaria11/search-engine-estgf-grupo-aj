@@ -20,12 +20,27 @@ public final class ProcessorQC {
     private double[][] matrixM;
     private ArrayList<String> files; // nomes do ficheiro
     private String[][] docLineM;
+    private String query;
+    private String path;
 
-    public ProcessorQC(String path, String query) {
+    public ProcessorQC(String query) {
+        this.query = query;
+    }
+
+    /**
+     * Definir o caminho dos ficheiros
+     *
+     * @param path Exemplo "files/"
+     */
+    public void folderDefine(String path) {
+        this.path = path;
         this.files = getFileNames(path);
+    }
 
-
-
+    /**
+     * Processa as matrizes para os ficheiros especificados
+     */
+    public void process() throws FileNotFoundException {
         // 1 Matriz M
         this.docLineM = createDocLineM(path, files);
         /* 
@@ -43,7 +58,6 @@ public final class ProcessorQC {
 
         this.matrixM = createMatrixOcc(docLineM);
         updateMatrix(matrixM);
-
     }
 
     /**
@@ -52,14 +66,14 @@ public final class ProcessorQC {
      * @param word
      * @return
      */
-    private String digitsDelete(String word) {
+    public String digitsDelete(String word) {
         return word.replaceAll("[\\d.]", "");
     }
 
     /*
      * .!?,:*+/
      */
-    private String ponctuationDelete(String word) {
+    public String ponctuationDelete(String word) {
         return word.replaceAll("[\\.!\\?,:\\*\\+/]", "");
     }
 
@@ -76,6 +90,7 @@ public final class ProcessorQC {
         ArrayList<String> fileList = new ArrayList<String>();
         String filename;
         File folder = new File(path);
+        
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
 
@@ -89,7 +104,7 @@ public final class ProcessorQC {
         return fileList;
     }
 
-    private String[][] createDocLineM(String path, ArrayList<String> files) {
+    private String[][] createDocLineM(String path, ArrayList<String> files) throws FileNotFoundException {
 
         String[][] matrix = new String[getNumberOfDocs() + 1][];
 
@@ -129,6 +144,7 @@ public final class ProcessorQC {
             } catch (FileNotFoundException ex) {
                 //Logger.getLogger(ProcessorQC.class.getName()).log(Level.SEVERE, null, ex);
                 System.err.println("O ficheiro " + filename + " não foi encontrado");
+                throw ex;
             }
 
         }
@@ -246,11 +262,13 @@ public final class ProcessorQC {
         return Q;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         /*
          * teste
          */
-        ProcessorQC p = new ProcessorQC("files/", "O mundo da coca-cola");
+        ProcessorQC p = new ProcessorQC("O mundo da coca-cola");
+        p.folderDefine("files/");
+        p.process();
 
         System.out.println("\ndocLineM: ");
         printStringMatrix(p.getDocLineM());
