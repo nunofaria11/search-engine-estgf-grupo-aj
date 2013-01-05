@@ -46,7 +46,7 @@ public class RankingList {
             public int compare(String doc1, String doc2) {
                 Double doc1Val = documentRanking.get(doc1);
                 Double doc2Val = documentRanking.get(doc2);
-                return doc1Val.compareTo(doc2Val);
+                return doc2Val.compareTo(doc1Val);
             }
         };
 
