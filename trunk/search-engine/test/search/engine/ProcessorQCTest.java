@@ -23,9 +23,14 @@ public class ProcessorQCTest {
 
     @Test
     public void testRemoverPontuacaoDigitos() {
-        ProcessorQC proc = new ProcessorQC("O mundo da coca-");
-        proc.folderDefine("files/");
+        ProcessorQC proc = new ProcessorQC();
+
+
+
+
         try {
+            proc.folderDefine("files/");
+            proc.searchPhrase("O mundo da coca-");
             proc.process();
             String input = "Olá eu sou o Nuno de 1988.";
             String result = proc.ponctuationDelete(input);
@@ -50,7 +55,5 @@ public class ProcessorQCTest {
 
 
     }
-
-  
     //  List<String> inputs = Arrays.asList("files/", "1234", "c:\\ESII\\files\\", "3.0");
 }
