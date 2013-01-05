@@ -23,38 +23,46 @@ public final class ProcessorQC {
     private String query;
     private String path;
 
-    public ProcessorQC(String query) {
-        this.query = query;
-    }
-
     /**
-     * Definir o caminho dos ficheiros
+     * 1º PASSO: Definir o caminho dos ficheiros
      *
      * @param path Exemplo "files/"
      */
-    public void folderDefine(String path) {
+    public void folderDefine(String path) throws FileNotFoundException {
         this.path = path;
         this.files = getFileNames(path);
+        this.docLineM = createDocLineM(path, files);
     }
 
     /**
-     * Processa as matrizes para os ficheiros especificados
+     * 2ª PASSO: Definir a query de pesquisa
+     *
+     * @param query
+     * @return boolean para verificar se a query é válida
      */
-    public void process() throws FileNotFoundException {
-        // 1 Matriz M
-        this.docLineM = createDocLineM(path, files);
-        /* 
-         * o createDocLine vai criar uma matriz com #Docs + 1 para depois 
-         * adicionar a query a essa matrizz, e tratar tudo na mesma estrutura
-         */
+    public boolean searchPhrase(String query) {
+        this.query = query;
         String queryNoDigits = digitsDelete(query);
 
         String queryNoPunc = ponctuationDelete(queryNoDigits);
 
-        String[] queryWords = queryNoPunc.split(" ");
+        String[] queryWords = removeWhiteSpaces(queryNoPunc.split(" "));
 
         // a ultima linha da matriz recebe o conteudo da query
         this.docLineM[docLineM.length - 1] = queryWords;
+        return queryWords.length != 0;
+
+    }
+
+    /**
+     * 3ª PASSO: Processa as matrizes para os ficheiros especificados
+     */
+    public void process() throws FileNotFoundException {
+
+        /* 
+         * o createDocLine vai criar uma matriz com #Docs + 1 para depois 
+         * adicionar a query a essa matrizz, e tratar tudo na mesma estrutura
+         */
 
         this.matrixM = createMatrixOcc(docLineM);
         updateMatrix(matrixM);
@@ -90,7 +98,7 @@ public final class ProcessorQC {
         ArrayList<String> fileList = new ArrayList<String>();
         String filename;
         File folder = new File(path);
-        
+
         File[] listOfFiles = folder.listFiles();
         for (int i = 0; i < listOfFiles.length; i++) {
 
@@ -125,20 +133,11 @@ public final class ProcessorQC {
                 String noPunctuation = ponctuationDelete(noDigits);
                 String[] words1 = noPunctuation.split(" ");
 
-                /*
-                 * remover espaços obsoletos
-                 */
-                ArrayList<String> wordList = new ArrayList<String>();
-                for (int w = 0; w < words1.length; w++) {
-                    if (!words1[w].isEmpty()) {
-
-                        wordList.add(words1[w]);
-                    }
-                }
 
 
 
-                matrix[docLine] = (String[]) wordList.toArray(new String[wordList.size()]);//
+
+                matrix[docLine] = removeWhiteSpaces(words1);//
                 docLine++;
 
             } catch (FileNotFoundException ex) {
@@ -149,6 +148,23 @@ public final class ProcessorQC {
 
         }
         return matrix;
+    }
+
+    /**
+     * Função para remover espaços brancos obsoletos (se existirem)
+     *
+     * @param array
+     * @return array sem espaços obsoletos
+     */
+    private String[] removeWhiteSpaces(String[] array) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (int w = 0; w < array.length; w++) {
+            if (!array[w].isEmpty()) {
+
+                list.add(array[w]);
+            }
+        }
+        return list.toArray(new String[list.size()]);
     }
 
     private ArrayList<String> createIndexArray(String[][] matrix) {
@@ -266,8 +282,10 @@ public final class ProcessorQC {
         /*
          * teste
          */
-        ProcessorQC p = new ProcessorQC("O mundo da coca-cola");
+        ProcessorQC p = new ProcessorQC();
         p.folderDefine("files/");
+        p.searchPhrase("O mundo da coca-cola");
+
         p.process();
 
         System.out.println("\ndocLineM: ");

@@ -20,12 +20,11 @@ public class FolderDefineTest {
 
         boolean success = true;
 
-        ProcessorQC p = new ProcessorQC(query);
+        ProcessorQC p = new ProcessorQC();
 
 
         try {
             p.folderDefine(input);
-            p.process();
 
         } catch (FileNotFoundException ex) {
             success = false;
@@ -33,7 +32,7 @@ public class FolderDefineTest {
             success = false;
         }
 
-        System.out.println("input path: \"" + input + "\" = " + success);
+        System.out.println("input path: " + success + " (\"" + input +"\")");
 
 
     }
