@@ -301,7 +301,7 @@ public final class ProcessorQC {
         for (int i = 0; i < m.length; i++) {
             System.out.println("");
             for (int j = 0; j < m[i].length; j++) {
-                System.out.print(m[i][j] + ", ");
+                System.out.print("\""+m[i][j] + "\", ");
             }
         }
     }
