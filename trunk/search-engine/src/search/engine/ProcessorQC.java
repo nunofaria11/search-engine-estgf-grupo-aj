@@ -100,19 +100,23 @@ public final class ProcessorQC {
         File folder = new File(path);
 
         File[] listOfFiles = folder.listFiles();
-        for (int i = 0; i < listOfFiles.length; i++) {
+        try {
+            for (int i = 0; i < listOfFiles.length; i++) {
 
-            if (listOfFiles[i].isFile()) {
-                filename = listOfFiles[i].getName();
-                if (filename.endsWith(".txt") || filename.endsWith(".TXT")) {
-                    fileList.add(filename);
+                if (listOfFiles[i].isFile()) {
+                    filename = listOfFiles[i].getName();
+                    if (filename.endsWith(".txt") || filename.endsWith(".TXT")) {
+                        fileList.add(filename);
+                    }
                 }
             }
+        } catch (NullPointerException ex) {
+            System.err.println("Erro de ficheiro");
         }
         return fileList;
     }
 
-    private String[][] createDocLineM(String path, ArrayList<String> files) throws FileNotFoundException {
+    public String[][] createDocLineM(String path, ArrayList<String> files) throws FileNotFoundException {
 
         String[][] matrix = new String[getNumberOfDocs() + 1][];
 
@@ -132,10 +136,6 @@ public final class ProcessorQC {
                 String noDigits = digitsDelete(input);
                 String noPunctuation = ponctuationDelete(noDigits);
                 String[] words1 = noPunctuation.split(" ");
-
-
-
-
 
                 matrix[docLine] = removeWhiteSpaces(words1);//
                 docLine++;
@@ -167,7 +167,7 @@ public final class ProcessorQC {
         return list.toArray(new String[list.size()]);
     }
 
-    private ArrayList<String> createIndexArray(String[][] matrix) {
+    public ArrayList<String> createIndexArray(String[][] matrix) {
         ArrayList<String> indexes = new ArrayList<String>();
 
         int num_docs = matrix.length;
@@ -190,7 +190,7 @@ public final class ProcessorQC {
         return indexes;
     }
 
-    private double[][] createMatrixOcc(String[][] docLineM) {
+    public double[][] createMatrixOcc(String[][] docLineM) {
 
         ArrayList<String> indexes = createIndexArray(docLineM);
 
@@ -217,18 +217,14 @@ public final class ProcessorQC {
         return M;
     }
 
-    private void updateMatrix(double[][] matrix) {
-
+    public void updateMatrix(double[][] matrix) {
+        double[][] backupOccMatrix = copyMatrix(matrix);
         for (int i = 0; i < matrix.length; i++) {
-
             for (int j = 0; j < matrix[i].length; j++) {
-
                 double currentValue = matrix[i][j];
-
-                int np = countDocWords(matrix, j);
-
+                int np = countDocWords(backupOccMatrix, j);
                 if (np != 0) {
-                    matrix[i][j] = currentValue * Math.log10(getNumberOfDocs() / np);
+                    matrix[i][j] = currentValue * Math.log10((double) getNumberOfDocs() / (double) np);
                 } else {
                     matrix[i][j] = 0;
                 }
@@ -236,10 +232,11 @@ public final class ProcessorQC {
         }
     }
 
-    private int countDocWords(double[][] matrix, int wordColumn) {
+    public int countDocWords(double[][] matrix, int wordColumn) {
         int pos = wordColumn;
         int totalDocuments = 0;
         for (int i = 0; i < matrix.length - 1; i++) {
+
             if (matrix[i][pos] != 0) {
                 totalDocuments++;
             }
@@ -249,6 +246,10 @@ public final class ProcessorQC {
 
     public String[][] getDocLineM() {
         return docLineM;
+    }
+
+    public double[][] getFullMatrixM() {
+        return matrixM;
     }
 
     /**
@@ -264,6 +265,24 @@ public final class ProcessorQC {
             System.arraycopy(matrixM[i], 0, M[i], 0, matrixM[i].length);
         }
         return M;
+    }
+
+    /**
+     * Este método, normalmente nao seria preciso, mas para os testes no
+     * ProcessTest.java, tem que existir
+     *
+     * @param matrixM
+     */
+    public void setMatrixM(double[][] matrixM) {
+        this.matrixM = matrixM;
+    }
+
+    public void setFiles(ArrayList<String> files) {
+        this.files = files;
+    }
+
+    public void setDocLineM(String[][] docLineM) {
+        this.docLineM = docLineM;
     }
 
     /**
@@ -291,10 +310,19 @@ public final class ProcessorQC {
         for (int i = 0; i < matrixM.length; i++) {
 
             for (int j = 0; j < matrixM[i].length; j++) {
-                System.out.format("%6.3f;", matrixM[i][j]);
+                System.out.format("%12.9f;", matrixM[i][j]);
             }
             System.out.println();
         }
 
+    }
+
+    private double[][] copyMatrix(double[][] matrix) {
+        double[][] copy = new double[matrix.length][];
+        for (int i = 0; i < matrix.length; i++) {
+            copy[i] = new double[matrix[i].length];
+            System.arraycopy(matrix[i], 0, copy[i], 0, matrix[i].length);
+        }
+        return copy;
     }
 }

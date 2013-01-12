@@ -2,17 +2,46 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package search.engine;
+package search.engine.white_box;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
+import search.engine.ProcessorQC;
 
 /**
+ *
+ *
+ * Componente search-engine.java versão 1.0
+ *
+ * - process()
+ *
+ * - digitsDelete(String word) DONE
+ *
+ * - ponctuationDelete(String word) DONE
+ *
+ * - getFileNames(String path) INUTIL
+ *
+ * - createDocLineM(String path, ArrayList<String> files) DONE
+ *
+ * - createIndexArray(String[][] matrix) INUTIL??? esta nao faz muito sentido porque é apenas auxiliar
+ *
+ * - createMatrixOcc(String[][] docLineM) DONE
+ *
+ * - updateMatrix(double[][] matrix) DONE
+ *
+ * - getMatrixM() INUTIL 
+ *
+ * - getMatrixQ() INUTIL 
+ *
+ * - createRankingList(double[][] M, double[][] Q, ArrayList<String> filenames)
+ *
+ * - calculateValue(double[][] M, double[][] Q, int l)
+ *
+ * - countDocWords(double[][] matrix, int wordColumn) DONE
+ *
  *
  * @author nuno
  */
@@ -24,10 +53,6 @@ public class ProcessorQCTest {
     @Test
     public void testRemoverPontuacaoDigitos() {
         ProcessorQC proc = new ProcessorQC();
-
-
-
-
         try {
             proc.folderDefine("files/");
             proc.searchPhrase("O mundo da coca-");
@@ -40,20 +65,12 @@ public class ProcessorQCTest {
             System.out.println("RESULT = " + result);
             System.out.println("CORRECT = " + correct);
             assertEquals(correct, result);
-            //        boolean success = true;
-            //        for (int i = 1; i <= 100; i++) {
-            //            String input = "asd" + i + "asd";
-            //            String correct = "asdasd";
-            //            String correct = "asdasd";
+
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ProcessorQCTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//            success = success && result.equals(correct);
-//        }
-//        assert success == true;
 
 
     }
-    //  List<String> inputs = Arrays.asList("files/", "1234", "c:\\ESII\\files\\", "3.0");
 }
