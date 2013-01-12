@@ -13,9 +13,9 @@ import search.engine.ProcessorQC;
  *
  * @author nuno
  */
-public class ProcessTest {
+public class CreateUpdateMatrixTest {
 
-    public ProcessTest() {
+    public CreateUpdateMatrixTest() {
     }
 
     /**
