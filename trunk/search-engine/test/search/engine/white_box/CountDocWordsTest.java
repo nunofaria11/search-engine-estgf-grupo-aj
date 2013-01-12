@@ -10,13 +10,18 @@ import search.engine.ProcessorQC;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class CountDocWordsTest {
 
     public CountDocWordsTest() {
     }
+    
 
+    /**
+     * Execução do teste
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCountDocWords() throws FileNotFoundException {
 

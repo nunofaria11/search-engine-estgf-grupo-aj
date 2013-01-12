@@ -11,7 +11,7 @@ import search.engine.ProcessorQC;
 /**
  * Entra uma matrixM e sai uma matrixM
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class CreateUpdateMatrixTest {
 
@@ -40,6 +40,10 @@ public class CreateUpdateMatrixTest {
         return m;
     }
 
+    /**
+     * Função que atualiza a matriz de ocorrências
+     * @return 
+     */
     private double[][] buildExpectedUpdatedMatrix() {
         double[][] m = new double[3][];
         m[0] = new double[2];
@@ -60,8 +64,8 @@ public class CreateUpdateMatrixTest {
     /**
      * Verifica se duas matrizes são exatamente iguais
      *
-     * @param mA
-     * @param mB
+     * @param matriz A
+     * @param matriz B
      * @return true se forem iguais, false se forem diferentes
      */
     private boolean matrixEquals(double[][] mA, double[][] mB) {
@@ -89,15 +93,17 @@ public class CreateUpdateMatrixTest {
                     return false;
                 }
                 result &= Math.abs(mA[linha][coluna] - mB[linha][coluna]) > PRECISAO;
-//                Double a = new Double(mA[linha][coluna]);
-//                Double b = new Double(mB[linha][coluna]);
-//                return a.compareTo(b) == 0;
+
             }
         }
 
         return result;
     }
 
+    /**
+     * Execução do tste da criação da matriz de ocorrências
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCreateMatrixOcc() throws FileNotFoundException {
 
@@ -107,9 +113,9 @@ public class CreateUpdateMatrixTest {
 
         processor.folderDefine("files_test/");   // passo 1
         processor.searchPhrase("palavra");  // passo 2
-        double[][] occMatrix = processor.createMatrixOcc(processor.getDocLineM()); // *** QUEREMOS TESTAR ISTO !!!
+        double[][] occMatrix = processor.createMatrixOcc(processor.getDocLineM()); 
 
-        processor.setMatrixM(occMatrix); // auxilar (no process nao seria necessário ter o set)
+        processor.setMatrixM(occMatrix); 
 
         System.out.println("EXPECTED OCC MATRIX: ");
         ProcessorQC.printMatrix(expectedOccMatrix);
@@ -122,6 +128,10 @@ public class CreateUpdateMatrixTest {
 
     }
 
+    /**
+     * Execução do teste de atualização da matriz
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testUpdateMatrix() throws FileNotFoundException {
 
@@ -134,9 +144,9 @@ public class CreateUpdateMatrixTest {
 
         double[][] occMatrix = processor.createMatrixOcc(processor.getDocLineM());
 
-        processor.setMatrixM(occMatrix); // auxilar (no process nao seria necessário ter o set)
+        processor.setMatrixM(occMatrix); 
 
-        processor.updateMatrix(occMatrix); // *** QUEREMOS TESTAR ISTO !!!
+        processor.updateMatrix(occMatrix); 
 
         System.out.println("EXPECTED UPDATED MATRIX: ");
         ProcessorQC.printMatrix(expectedUpdatedMatrix);
@@ -144,7 +154,7 @@ public class CreateUpdateMatrixTest {
         System.out.println("\nUPDATED MATRIX: ");
         ProcessorQC.printMatrix(processor.getMatrixM());
 
-        // agora verificar se a matriz de ocorrencias tem os logaritmos bem
+       // verifica se as matrizes são iguais
         assert matrixEquals(expectedUpdatedMatrix, processor.getMatrixM());
 
 

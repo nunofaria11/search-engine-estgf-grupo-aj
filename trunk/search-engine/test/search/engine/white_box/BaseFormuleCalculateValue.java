@@ -13,13 +13,19 @@ import search.engine.RankingList;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class BaseFormuleCalculateValue {
 
     public BaseFormuleCalculateValue() {
     }
 
+    
+    
+    /**
+     * Construção da matrix Q
+     * @return q
+     */
     private double[][] buildExpectedQ() {
         double[][] q = new double[1][];
         q[0] = new double[2];
@@ -30,6 +36,11 @@ public class BaseFormuleCalculateValue {
         return q;
     }
 
+    
+    /**
+     * Construção da matrix M
+     * @return m
+     */
     private double[][] buildExpectedM() {
         double[][] m = new double[3][];
         m[0] = new double[2];
@@ -47,6 +58,18 @@ public class BaseFormuleCalculateValue {
         return m;
     }
 
+    
+    /**
+     * A fórmula está dividida em 3 partes a,b,c
+     */
+    
+    /**
+     * Cálculo da parte "a" da formula
+     * @param M
+     * @param Q
+     * @param l
+     * @return 
+     */
     private double calculateA(double[][] M, double[][] Q, int l) {
         double a = 0;
         for (int i = 0; i < M[l].length; i++) {
@@ -55,6 +78,15 @@ public class BaseFormuleCalculateValue {
         return a;
     }
 
+    
+    
+    /**
+     * Cálculo da parte "b" da formula
+     * @param M
+     * @param Q
+     * @param l
+     * @return 
+     */
     private double calculateB(double[][] M, double[][] Q, int l) {
         double b = 0;
         for (int u = 0; u < M[l].length; u++) {
@@ -64,6 +96,14 @@ public class BaseFormuleCalculateValue {
         return b;
     }
 
+    
+    /**
+     * Cálculo da parte "c" da formula
+     * @param M
+     * @param Q
+     * @param l
+     * @return 
+     */
     private double calculateC(double[][] M, double[][] Q, int l) {
         double c = 0;
 
@@ -74,18 +114,31 @@ public class BaseFormuleCalculateValue {
         return c;
     }
 
+    
+    
+    
+    /**
+     * cáculo total da formula envolvendo todas as partes a,b,c
+     * @param M
+     * @param Q
+     * @param l
+     * @return 
+     */
     private double calculate(double[][] M, double[][] Q, int l) {
 
         double a = calculateA(M, Q, l);
         double b = calculateB(M, Q, l);
         double c = calculateC(M, Q, l);
 
-//        System.out.println("A: " + a);
-//        System.out.println("B: " + b);
-//        System.out.println("C: " + c);
+
         return (double) ((double) a / (double) (b * c));
     }
-
+  
+    
+    /**
+     * Execução do teste
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCalculateValue() throws FileNotFoundException {
 
@@ -113,11 +166,9 @@ public class BaseFormuleCalculateValue {
         int l = 1;
         double value = bf.calculateValue(M, Q, l);
         double expectedValue = calculate(expectedM, expectedQ, l);
-//
+
         System.out.println("value = " + value);
-//        System.out.println("expectedvalue = " + expectedValue);
-//        System.out.println(processor.createIndexArray(processor.getDocLineM()));
-//        ProcessorQC.printMatrix(processor.getFullMatrixM());
+
 
         double PRECISAO = 0.000001;
 

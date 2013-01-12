@@ -13,7 +13,7 @@ import search.engine.RankingList;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class RankingListTest {
 
@@ -21,7 +21,10 @@ public class RankingListTest {
     }
 
     
-    
+    /**
+     * Função que cria o RankingList
+     * @return 
+     */
     private ArrayList<String> buildExpectedRankingList() {
         ArrayList<String> list = new ArrayList<String>();
         list.add("F3.txt");
@@ -29,8 +32,11 @@ public class RankingListTest {
         list.add("F1.txt");
         return list;
     }
-    // 321
     
+    /**
+     * Execução do teste
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCreateRanking() throws FileNotFoundException {
         

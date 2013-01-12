@@ -2,15 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package search.engine;
+package search.engine.black_box;
 
 import java.io.FileNotFoundException;
 import org.junit.Test;
+import search.engine.ProcessorQC;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class SearchPhraseTest {
 
@@ -40,16 +41,6 @@ public class SearchPhraseTest {
 
 
     }
-    /*
-     * Eu gosto muito de engenharia de software 2!!!	
-	
-	
-	
-     Este é o ano de 2012/1013 da ESTGF!!!!!	
-	
-     123456!!!!!!	
-	
-     */
 
     @Test
     public void testAllSearchPhrases() {

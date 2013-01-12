@@ -13,43 +13,16 @@ import search.engine.ProcessorQC;
 
 /**
  *
- *
- * Componente search-engine.java versão 1.0
- *
- * - process()
- *
- * - digitsDelete(String word) DONE
- *
- * - ponctuationDelete(String word) DONE
- *
- * - getFileNames(String path) INUTIL
- *
- * - createDocLineM(String path, ArrayList<String> files) DONE
- *
- * - createIndexArray(String[][] matrix) DONE??? esta nao faz muito sentido porque é apenas auxiliar
- *
- * - createMatrixOcc(String[][] docLineM) DONE
- *
- * - updateMatrix(double[][] matrix) DONE
- *
- * - getMatrixM() INUTIL 
- *
- * - getMatrixQ() INUTIL 
- *
- * - createRankingList(double[][] M, double[][] Q, ArrayList<String> filenames)
- *
- * - calculateValue(double[][] M, double[][] Q, int l)
- *
- * - countDocWords(double[][] matrix, int wordColumn) DONE
- *
- *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class ProcessorQCTest {
 
     public ProcessorQCTest() {
     }
 
+    /**
+     * Execução do teste
+     */
     @Test
     public void testRemoverPontuacaoDigitos() {
         ProcessorQC proc = new ProcessorQC();
@@ -57,7 +30,7 @@ public class ProcessorQCTest {
             proc.folderDefine("files/");
             proc.searchPhrase("O mundo da coca-");
             proc.process();
-            String input = "Olá eu sou o Nuno de 1988.";
+            String input = "Olá eu sou o Nuno de 1984.";
             String result = proc.ponctuationDelete(input);
             result = proc.digitsDelete(result);
             String correct = "Olá eu sou o Nuno de ";

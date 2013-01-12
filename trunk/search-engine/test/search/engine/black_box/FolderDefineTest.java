@@ -2,16 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package search.engine;
+package search.engine.black_box;
 
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
+import search.engine.ProcessorQC;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class FolderDefineTest {
 
@@ -32,10 +33,10 @@ public class FolderDefineTest {
 
     @Test
     public void testAllFolderDefine() {
-//        testFolderDefine("files/");
+        testFolderDefine("files/");
         testFolderDefine("1234");
-//        testFolderDefine("c:\\ESII\\files\\");
-//        testFolderDefine("3.0");
+        testFolderDefine("c:\\ESII\\files\\");
+        testFolderDefine("3.0");
 
     }
 }

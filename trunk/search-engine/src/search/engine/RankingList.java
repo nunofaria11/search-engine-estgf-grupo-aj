@@ -14,7 +14,9 @@ import java.util.HashMap;
  * @author nuno nunes / Luis Teixeira
  */
 public class RankingList {
-
+/**
+ * Variáveis de instância
+ */
     private IntFormule formula;
     private ArrayList<String> rankingList;
     private HashMap<String, Double> documentRanking;
@@ -23,6 +25,15 @@ public class RankingList {
         this.formula = formula;
     }
 
+    
+    
+    
+    /**
+     * Função que cria o ranking por ordem dos resultados da função base calculateValue
+     * @param M matrixM
+     * @param Q matrixQ
+     * @param filenames  ficheiros
+     */
     public void createRankingList(double[][] M, double[][] Q, ArrayList<String> filenames) {
 
         int numDocs = filenames.size();
@@ -65,6 +76,12 @@ public class RankingList {
         return rankingList;
     }
 
+    
+    
+    
+    /**
+     * Imprime para o ecrã o ranking dos ficheiros
+     */
     public void showRankingList() {
         for (String filename : rankingList) {
             System.out.println(filename + " [ " + documentRanking.get(filename) + " ]");

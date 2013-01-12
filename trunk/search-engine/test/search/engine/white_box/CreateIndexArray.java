@@ -11,13 +11,17 @@ import search.engine.ProcessorQC;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class CreateIndexArray {
 
     public CreateIndexArray() {
     }
 
+    /**
+     * Função que cria uma Array de palavras
+     * @return list
+     */
     private ArrayList<String> buildExpectedIndexArray() {
         ArrayList<String> list = new ArrayList<String>();
         list.add("palavra");
@@ -26,6 +30,10 @@ public class CreateIndexArray {
         return list;
     }
 
+    /**
+     * Excução do teste
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCreateIndexArray() throws FileNotFoundException {
         ProcessorQC processor = new ProcessorQC();

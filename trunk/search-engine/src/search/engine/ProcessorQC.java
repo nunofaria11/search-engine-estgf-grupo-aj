@@ -17,6 +17,9 @@ import java.util.Scanner;
  */
 public final class ProcessorQC {
 
+    /*
+     * Variaveis de intância
+     */
     private double[][] matrixM;
     private ArrayList<String> files; // nomes do ficheiro
     private String[][] docLineM;
@@ -58,7 +61,6 @@ public final class ProcessorQC {
         // a ultima linha da matriz recebe o conteudo da query
         this.docLineM[docLineM.length - 1] = queryWords;
         return queryWords.length != 0;
-
     }
 
     /**
@@ -68,7 +70,7 @@ public final class ProcessorQC {
 
         /* 
          * o createDocLine vai criar uma matriz com #Docs + 1 para depois 
-         * adicionar a query a essa matrizz, e tratar tudo na mesma estrutura
+         * adicionar a query a essa matriz, e tratar tudo na mesma estrutura
          */
 
         this.matrixM = createMatrixOcc(docLineM);
@@ -86,12 +88,17 @@ public final class ProcessorQC {
     }
 
     /*
-     * .!?,:*+/
+     * Remove a pontuação de uma String
+     *   ex: .!?,:*+/
      */
     public String ponctuationDelete(String word) {
         return word.replaceAll("[\\.!\\?,:\\*\\+/]", "");
     }
 
+    /**
+     * Retorna o número de documentos
+     * @return 
+     */
     public Integer getNumberOfDocs() {
         return files.size();
     }
@@ -123,6 +130,14 @@ public final class ProcessorQC {
         return fileList;
     }
 
+    
+    /**
+     * Cria uma matrix em que cada linha representa um ficheiro da pasta que contém a coleção de documentos
+     * @param path caminho da diretoria
+     * @param files ficheiros da diretoria
+     * @return - matrix
+     * @throws FileNotFoundException 
+     */
     public String[][] createDocLineM(String path, ArrayList<String> files) throws FileNotFoundException {
 
         String[][] matrix = new String[getNumberOfDocs() + 1][];
@@ -133,7 +148,6 @@ public final class ProcessorQC {
             //
             try {
                 FileInputStream fis = new FileInputStream(path + filename);
-                //InputStreamReader in = new InputStreamReader(fis, "UTF-8");
                 Scanner scanner = new Scanner(fis);
                 String input = "";
 
@@ -174,6 +188,12 @@ public final class ProcessorQC {
         return list.toArray(new String[list.size()]);
     }
 
+    
+    /**
+     * Função que cria um array de palavras não repetidas da coleção de ficheiros
+     * @param matrix - recebe de createDocLineM
+     * @return 
+     */
     public ArrayList<String> createIndexArray(String[][] matrix) {
         ArrayList<String> indexes = new ArrayList<String>();
 
@@ -197,6 +217,12 @@ public final class ProcessorQC {
         return indexes;
     }
 
+    
+    /**
+     * Função que cria uma matriz de ocorrências das palavras existêntes em cada ficheiro
+     * @param docLineM
+     * @return 
+     */
     public double[][] createMatrixOcc(String[][] docLineM) {
 
         ArrayList<String> indexes = createIndexArray(docLineM);
@@ -224,6 +250,11 @@ public final class ProcessorQC {
         return M;
     }
 
+    
+    /**
+     * Função que atualiza a matriz com base na formula
+     * @param matrix 
+     */
     public void updateMatrix(double[][] matrix) {
         double[][] backupOccMatrix = copyMatrix(matrix);
         for (int i = 0; i < matrix.length; i++) {
@@ -239,6 +270,14 @@ public final class ProcessorQC {
         }
     }
 
+    
+    
+    /**
+     * Função que conta o número de documentos que contém determinada palavra
+     * @param matrix de palavras
+     * @param wordColumn correspondente a cada palavra
+     * @return 
+     */
     public int countDocWords(double[][] matrix, int wordColumn) {
         int pos = wordColumn;
         int totalDocuments = 0;
@@ -251,18 +290,28 @@ public final class ProcessorQC {
         return totalDocuments;
     }
 
+    
+    
+    /**
+     * Retorna o docLineM
+     * @return 
+     */
     public String[][] getDocLineM() {
         return docLineM;
     }
 
+    
+    /**
+     * Get que retorna a matrixM
+     * @return 
+     */
     public double[][] getFullMatrixM() {
         return matrixM;
     }
 
     /**
-     * Vai buscar a parte superior da matriz de ocorrencias (apenas as
+     * Função que retorna a parte superior da matriz de ocorrencias (apenas as
      * ocorrencias dos documentos)
-     *
      * @return
      */
     public double[][] getMatrixM() {
@@ -275,7 +324,7 @@ public final class ProcessorQC {
     }
 
     /**
-     * Este método, normalmente nao seria preciso, mas para os testes no
+     * Método, que poderia ser descartado, mas para os testes no
      * ProcessTest.java, tem que existir
      *
      * @param matrixM
@@ -284,6 +333,8 @@ public final class ProcessorQC {
         this.matrixM = matrixM;
     }
 
+    
+    
     public void setFiles(ArrayList<String> files) {
         this.files = files;
     }
@@ -293,7 +344,7 @@ public final class ProcessorQC {
     }
 
     /**
-     * Vai buscar uma matriz com a ultima linha da matriz principal, que é
+     * Função que devolve uma matriz com a ultima linha da matriz principal, que é
      * correspondente ao array de ocorrencias da query
      *
      * @return
@@ -304,6 +355,11 @@ public final class ProcessorQC {
         return Q;
     }
 
+    
+    /**
+     * Função que imprime a matriz m
+     * @param m 
+     */
     public static void printStringMatrix(String[][] m) {
         for (int i = 0; i < m.length; i++) {
             System.out.println("");
@@ -313,6 +369,12 @@ public final class ProcessorQC {
         }
     }
 
+    
+    
+    /**
+     * Função que imprime a matriz matrixM
+     * @param matrixM 
+     */
     public static void printMatrix(double[][] matrixM) {
         System.out.println("{");
         for (int i = 0; i < matrixM.length; i++) {
@@ -321,12 +383,19 @@ public final class ProcessorQC {
                 System.out.format("%6.2f;", matrixM[i][j]);
             }
             System.out.println("}, ");
-            
+
         }
         System.out.println("}");
 
     }
 
+    
+    
+    /**
+     * Função que faz uma copia da matriz
+     * @param matrix
+     * @return 
+     */
     private double[][] copyMatrix(double[][] matrix) {
         double[][] copy = new double[matrix.length][];
         for (int i = 0; i < matrix.length; i++) {

@@ -10,6 +10,16 @@ package search.engine;
  */
 public class BaseFormule implements IntFormule {
 
+    
+    
+    /**
+     * Método que aplica a função GrauSim
+     * Esta função é feita por fases a, b, c, em que cada fase resolve parte do total da função
+     * @param M
+     * @param Q
+     * @param L
+     * @return 
+     */
     @Override
     public double calculateValue(double[][] M, double[][] Q, int L) {
         double result;
