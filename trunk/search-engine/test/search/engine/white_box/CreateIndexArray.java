@@ -29,7 +29,7 @@ public class CreateIndexArray {
     @Test
     public void testCreateIndexArray() throws FileNotFoundException {
         ProcessorQC processor = new ProcessorQC();
-        processor.folderDefine("files_test/");   // passo 1
+        processor.folderDefine("files/");   // passo 1
         processor.searchPhrase("palavra");  // passo 2   
 
         ArrayList<String> resultList = processor.createIndexArray(processor.getDocLineM());
