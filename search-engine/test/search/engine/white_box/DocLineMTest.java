@@ -11,13 +11,17 @@ import search.engine.ProcessorQC;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class DocLineMTest {
 
     public DocLineMTest() {
     }
 
+    /**
+     * Função que cria a DocLineM
+     * @return 
+     */
     public String[][] buildExpectedDocLineM() {
         return new String[][]{
                     {"palavra", "palavra", "palavra"},
@@ -30,8 +34,8 @@ public class DocLineMTest {
     /**
      * Verifica se duas matrizes são exatamente iguais
      *
-     * @param mA
-     * @param mB
+     * @param matriz A
+     * @param matriz B
      * @return true se forem iguais, false se forem diferentes
      */
     private boolean matrixEquals(String[][] mA, String[][] mB) {
@@ -66,6 +70,10 @@ public class DocLineMTest {
         return result;
     }
 
+    /**
+     * Execução do teste
+     * @throws FileNotFoundException 
+     */
     @Test
     public void testCreateDocLineM() throws FileNotFoundException {
 

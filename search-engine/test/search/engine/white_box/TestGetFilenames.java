@@ -10,13 +10,17 @@ import search.engine.ProcessorQC;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class TestGetFilenames {
 
     public TestGetFilenames() {
     }
 
+    /**
+     * Função que cria uma ArrayList com 3 ficheiros
+     * @return 
+     */
     private ArrayList<String> buildExpectedFilenames() {
         ArrayList<String> list = new ArrayList<String>();
         list.add("F1.txt");
@@ -25,6 +29,9 @@ public class TestGetFilenames {
         return list;
     }
 
+    /**
+     * Execução do teste
+     */
     @Test
     public void testGetFileNames() {
         ProcessorQC processor = new ProcessorQC();
