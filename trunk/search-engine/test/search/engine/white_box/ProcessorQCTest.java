@@ -26,7 +26,7 @@ import search.engine.ProcessorQC;
  *
  * - createDocLineM(String path, ArrayList<String> files) DONE
  *
- * - createIndexArray(String[][] matrix) INUTIL??? esta nao faz muito sentido porque é apenas auxiliar
+ * - createIndexArray(String[][] matrix) DONE??? esta nao faz muito sentido porque é apenas auxiliar
  *
  * - createMatrixOcc(String[][] docLineM) DONE
  *
