@@ -20,8 +20,6 @@ public class FolderDefineTest {
 
     public void testFolderDefine(String path) {
 
-
-
         ProcessorQC p = new ProcessorQC();
         try {
             p.folderDefine(path);
@@ -29,9 +27,6 @@ public class FolderDefineTest {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FolderDefineTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
-
 
     }
 

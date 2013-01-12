@@ -80,10 +80,10 @@ public class BaseFormuleCalculateValue {
         double b = calculateB(M, Q, l);
         double c = calculateC(M, Q, l);
 
-        System.out.println("A: "+a);
-        System.out.println("B: "+b);
-        System.out.println("C: "+c);
-        return a / (b * c);
+//        System.out.println("A: " + a);
+//        System.out.println("B: " + b);
+//        System.out.println("C: " + c);
+        return (double) ((double) a / (double) (b * c));
     }
 
     @Test
@@ -91,10 +91,14 @@ public class BaseFormuleCalculateValue {
 
         double[][] expectedM = buildExpectedM();
         double[][] expectedQ = buildExpectedQ();
+        System.out.println("M: ");
+        ProcessorQC.printMatrix(expectedM);
+        System.out.println("Q: ");
+        ProcessorQC.printMatrix(expectedQ);
 
 
-        String path = "files/";
-        String query = "engenharia de software";
+        String path = "files_test/";
+        String query = "outra palavra";
 
         ProcessorQC processor = new ProcessorQC();
         processor.folderDefine(path);   // passo 1
@@ -106,14 +110,14 @@ public class BaseFormuleCalculateValue {
         double[][] M = processor.getMatrixM();
         double[][] Q = processor.getMatrixQ();
 
-        int l = 2;
+        int l = 1;
         double value = bf.calculateValue(M, Q, l);
         double expectedValue = calculate(expectedM, expectedQ, l);
-
+//
         System.out.println("value = " + value);
-        System.out.println("expectedvalue = " + expectedValue);
-        System.out.println(processor.createIndexArray(processor.getDocLineM()));
-        ProcessorQC.printMatrix(processor.getFullMatrixM());
+//        System.out.println("expectedvalue = " + expectedValue);
+//        System.out.println(processor.createIndexArray(processor.getDocLineM()));
+//        ProcessorQC.printMatrix(processor.getFullMatrixM());
 
         double PRECISAO = 0.000001;
 

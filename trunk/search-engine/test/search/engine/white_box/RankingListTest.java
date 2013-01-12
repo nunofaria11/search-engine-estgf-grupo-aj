@@ -4,15 +4,53 @@
  */
 package search.engine.white_box;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import search.engine.BaseFormule;
+import search.engine.ProcessorQC;
+import search.engine.RankingList;
 
 /**
  *
  * @author nuno
  */
 public class RankingListTest {
-    
+
     public RankingListTest() {
+    }
+
+    
+    
+    private ArrayList<String> buildExpectedRankingList() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("F3.txt");
+        list.add("F2.txt");
+        list.add("F1.txt");
+        return list;
+    }
+    // 321
+    
+    @Test
+    public void testCreateRanking() throws FileNotFoundException {
+        
+        String path = "files_test/";
+        String query = "outra";
+        
+        ProcessorQC processor = new ProcessorQC();
+        processor.folderDefine(path);   // passo 1
+        processor.searchPhrase(query);  // passo 2
+        processor.process();            // passo 3
+        
+        BaseFormule bf = new BaseFormule();
+        ArrayList<String> filenames = processor.getFileNames(path);
+        double[][] M = processor.getMatrixM();
+        double[][] Q = processor.getMatrixQ();
+
+        RankingList rankingList = new RankingList(bf);
+        rankingList.createRankingList(M, Q, filenames);
+        
+        assert rankingList.getRankingList().equals(buildExpectedRankingList());
+        
     }
 }

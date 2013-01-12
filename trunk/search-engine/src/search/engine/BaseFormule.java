@@ -11,17 +11,17 @@ package search.engine;
 public class BaseFormule implements IntFormule {
 
     @Override
-    public double calculateValue(double[][] M, double[][] Q, int l) {
+    public double calculateValue(double[][] M, double[][] Q, int L) {
         double result;
         // a: somatorio
         double a = 0;
-        for (int i = 0; i < M[l].length; i++) {
-            a += M[l][i] * Q[0][i];
+        for (int i = 0; i < M[L].length; i++) {
+            a += M[L][i] * Q[0][i];
         }
         // b: somatorio
         double b = 0;
-        for (int u = 0; u < M[l].length; u++) {
-            b += M[l][u] * M[l][u];
+        for (int u = 0; u < M[L].length; u++) {
+            b += M[L][u] * M[L][u];
         }
         b = Math.sqrt(b);
         // c: somatorio
@@ -32,6 +32,9 @@ public class BaseFormule implements IntFormule {
         }
         c = Math.sqrt(c);
 
+        if (b * c == 0) {
+            return 0;
+        }
         result = a / (b * c);
         return result;
     }
