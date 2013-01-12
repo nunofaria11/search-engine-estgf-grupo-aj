@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class Engine {
 

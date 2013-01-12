@@ -13,7 +13,7 @@ import java.util.Scanner;
 /**
  * Processador de Queries
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public final class ProcessorQC {
 
@@ -276,24 +276,6 @@ public final class ProcessorQC {
         double[][] Q = new double[1][];
         Q[0] = matrixM[matrixM.length - 1];
         return Q;
-    }
-
-    public static void main(String[] args) throws FileNotFoundException {
-        /*
-         * teste
-         */
-        ProcessorQC p = new ProcessorQC();
-        p.folderDefine("files/");
-        p.searchPhrase("O mundo da coca-cola");
-
-        p.process();
-
-        System.out.println("\ndocLineM: ");
-        printStringMatrix(p.getDocLineM());
-
-        System.out.println("\nMatrixM: ");
-        //printMatrix(p.createMatrixOcc(p.getDocLineM()));
-        printMatrix(p.getMatrixM());
     }
 
     public static void printStringMatrix(String[][] m) {
