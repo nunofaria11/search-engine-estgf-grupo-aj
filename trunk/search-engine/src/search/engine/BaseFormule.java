@@ -6,7 +6,7 @@ package search.engine;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public class BaseFormule implements IntFormule {
 
@@ -20,14 +20,14 @@ public class BaseFormule implements IntFormule {
         }
         // b: somatorio
         double b = 0;
-        for (int i = 0; i < M[l].length; i++) {
-            b += M[l][i] * M[l][i];
+        for (int u = 0; u < M[l].length; u++) {
+            b += M[l][u] * M[l][u];
         }
         // c: somatorio
         double c = 0;
 
-        for (int i = 0; i < Q[0].length; i++) {
-            c += Q[0][i] * Q[0][i];
+        for (int x = 0; x < Q[0].length; x++) {
+            c += Q[0][x] * Q[0][x];
         }
 
 

@@ -6,7 +6,7 @@ package search.engine;
 
 /**
  *
- * @author nuno
+ * @author nuno nunes / Luis Teixeira
  */
 public interface IntFormule {
     
