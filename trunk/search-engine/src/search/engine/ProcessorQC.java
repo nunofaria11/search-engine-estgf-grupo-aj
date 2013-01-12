@@ -28,18 +28,16 @@ public final class ProcessorQC {
      *
      * @param path Exemplo "files/"
      */
-    public boolean folderDefine(String path) throws FileNotFoundException {
-        boolean success = true;
+    public void folderDefine(String path) throws FileNotFoundException {
+
         try {
             this.path = path;
             this.files = getFileNames(path);
             this.docLineM = createDocLineM(path, files);
-            return true;
+
         } catch (FileNotFoundException ex) {
-            success = false;
+
             throw ex;
-        } finally {
-            return success;
         }
     }
 

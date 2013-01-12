@@ -20,11 +20,11 @@ public class FolderDefineTest {
 
     public void testFolderDefine(String path) {
 
-        boolean success;
+
 
         ProcessorQC p = new ProcessorQC();
         try {
-            success = p.folderDefine(path);
+            p.folderDefine(path);
             System.out.println(p.getFileNames(path));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FolderDefineTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -37,10 +37,10 @@ public class FolderDefineTest {
 
     @Test
     public void testAllFolderDefine() {
-        testFolderDefine("files/");
+//        testFolderDefine("files/");
         testFolderDefine("1234");
-        testFolderDefine("c:\\ESII\\files\\");
-        testFolderDefine("3.0");
+//        testFolderDefine("c:\\ESII\\files\\");
+//        testFolderDefine("3.0");
 
     }
 }
