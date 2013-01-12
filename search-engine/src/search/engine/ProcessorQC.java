@@ -314,13 +314,16 @@ public final class ProcessorQC {
     }
 
     public static void printMatrix(double[][] matrixM) {
+        System.out.println("{");
         for (int i = 0; i < matrixM.length; i++) {
-
+            System.out.println("{");
             for (int j = 0; j < matrixM[i].length; j++) {
                 System.out.format("%6.2f;", matrixM[i][j]);
             }
-            System.out.println();
+            System.out.println("}, ");
+            
         }
+        System.out.println("}");
 
     }
 
