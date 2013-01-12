@@ -23,13 +23,14 @@ public class BaseFormule implements IntFormule {
         for (int u = 0; u < M[l].length; u++) {
             b += M[l][u] * M[l][u];
         }
+        b = Math.sqrt(b);
         // c: somatorio
         double c = 0;
 
         for (int x = 0; x < Q[0].length; x++) {
             c += Q[0][x] * Q[0][x];
         }
-
+        c = Math.sqrt(c);
 
         result = a / (b * c);
         return result;

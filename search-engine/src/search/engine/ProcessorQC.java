@@ -28,10 +28,19 @@ public final class ProcessorQC {
      *
      * @param path Exemplo "files/"
      */
-    public void folderDefine(String path) throws FileNotFoundException {
-        this.path = path;
-        this.files = getFileNames(path);
-        this.docLineM = createDocLineM(path, files);
+    public boolean folderDefine(String path) throws FileNotFoundException {
+        boolean success = true;
+        try {
+            this.path = path;
+            this.files = getFileNames(path);
+            this.docLineM = createDocLineM(path, files);
+            return true;
+        } catch (FileNotFoundException ex) {
+            success = false;
+            throw ex;
+        } finally {
+            return success;
+        }
     }
 
     /**
@@ -301,7 +310,7 @@ public final class ProcessorQC {
         for (int i = 0; i < m.length; i++) {
             System.out.println("");
             for (int j = 0; j < m[i].length; j++) {
-                System.out.print("\""+m[i][j] + "\", ");
+                System.out.print("\"" + m[i][j] + "\", ");
             }
         }
     }
@@ -310,7 +319,7 @@ public final class ProcessorQC {
         for (int i = 0; i < matrixM.length; i++) {
 
             for (int j = 0; j < matrixM[i].length; j++) {
-                System.out.format("%12.9f;", matrixM[i][j]);
+                System.out.format("%6.2f;", matrixM[i][j]);
             }
             System.out.println();
         }

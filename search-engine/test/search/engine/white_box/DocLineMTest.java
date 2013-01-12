@@ -18,7 +18,7 @@ public class DocLineMTest {
     public DocLineMTest() {
     }
 
-    private String[][] buildExpectedDocLineM() {
+    public String[][] buildExpectedDocLineM() {
         return new String[][]{
                     {"palavra", "palavra", "palavra"},
                     {"palavra", "palavra", "palavra", "outra", "palavra"},
@@ -68,9 +68,9 @@ public class DocLineMTest {
 
     @Test
     public void testCreateDocLineM() throws FileNotFoundException {
-        
+
         String path = ",";
-        
+
         ProcessorQC processor = new ProcessorQC();
         ArrayList<String> filenames = processor.getFileNames(path);
         processor.setFiles(filenames);
@@ -81,7 +81,7 @@ public class DocLineMTest {
 
         System.out.println("*** expected docLineM: ");
         ProcessorQC.printStringMatrix(buildExpectedDocLineM());
-        
+
         System.out.println("\n***docLineM: ");
         ProcessorQC.printStringMatrix(docLineM);
 

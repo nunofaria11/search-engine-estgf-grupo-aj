@@ -5,21 +5,14 @@
 package search.engine.white_box;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author nuno
  */
-public class BaseFormuleTest {
+public class RankingListTest {
     
-    public BaseFormuleTest() {
-    }
-    
-    @Test
-    public void testCalculateValue(){
-        
-        
-        
-        
+    public RankingListTest() {
     }
 }
